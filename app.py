@@ -2,10 +2,13 @@ from flask import Flask, Response, request
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 import json
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://eduardocustodio:ZWR1YXJkb2N1@jobs.visie.com.br:3306/eduardocustodio'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ['DATABASE_USERNAME'] + ':' + os.environ['DATABASE_PASSWORD'] + '@' + os.environ['DATABASE_HOST'] + ':' + os.environ['DATABASE_PORT'] + '/' + os.environ['DATABADE_NAME']
 db = SQLAlchemy(app)
 
 class Person(db.Model):
