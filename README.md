@@ -15,6 +15,7 @@ py -3 -m venv venv
 pip install flask flask_sqlalchemy
 pip install mysql-connector-python mysqlclient
 pip install python-dotenv
+pip install Flask-Cors
 ```
 
 ## Running the app

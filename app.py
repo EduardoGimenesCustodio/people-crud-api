@@ -2,11 +2,14 @@ from flask import Flask, Response, request
 from flask_sqlalchemy import SQLAlchemy
 import mysql.connector
 import json
+from flask_cors import CORS
+from flask_cors import cross_origin
 from dotenv import load_dotenv
 import os
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ['DATABASE_USERNAME'] + ':' + os.environ['DATABASE_PASSWORD'] + '@' + os.environ['DATABASE_HOST'] + ':' + os.environ['DATABASE_PORT'] + '/' + os.environ['DATABADE_NAME']
 db = SQLAlchemy(app)
@@ -33,6 +36,7 @@ class Person(db.Model):
         }
 
 @app.route("/person", methods=["GET"])
+@cross_origin()
 def list_people():
     people_objects = Person.query.all()
     people_json = [person.to_json() for person in people_objects]
@@ -40,6 +44,7 @@ def list_people():
     return make_response(200, "pessoas", people_json)
 
 @app.route("/person/<id_pessoa>", methods=["GET"])
+@cross_origin()
 def get_person_by_id(id_pessoa):
     person_object = Person.query.filter_by(id_pessoa=id_pessoa).first()
     person_json = person_object.to_json()
@@ -47,6 +52,7 @@ def get_person_by_id(id_pessoa):
     return make_response(200, "pessoa", person_json)
 
 @app.route("/person", methods=["POST"])
+@cross_origin()
 def create_person():
     body = request.get_json()
 
@@ -60,6 +66,7 @@ def create_person():
         return make_response(400, "pessoa", {}, "error when registering")
 
 @app.route("/person/<id_pessoa>", methods=["PUT"])
+@cross_origin()
 def update_person_by_id(id_pessoa):
     person_object = Person.query.filter_by(id_pessoa=id_pessoa).first()
     body = request.get_json()
@@ -86,6 +93,7 @@ def update_person_by_id(id_pessoa):
         return make_response(400, "pessoa", {}, "error when updating")
 
 @app.route("/person/<id_pessoa>", methods=["DELETE"])
+@cross_origin()
 def delete_person_by_id(id_pessoa):
     person_object = Person.query.filter_by(id_pessoa=id_pessoa).first()
 
