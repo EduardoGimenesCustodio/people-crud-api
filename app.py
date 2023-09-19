@@ -11,7 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ['DATABASE_USERNAME'] + ':' + os.environ['DATABASE_PASSWORD'] + '@' + os.environ['DATABASE_HOST'] + ':' + os.environ['DATABASE_PORT'] + '/' + os.environ['DATABADE_NAME']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + os.environ['DATABASE_USERNAME'] + ':' + os.environ['DATABASE_PASSWORD'] + '@' + os.environ['DATABASE_HOST'] + ':' + os.environ['DATABASE_PORT'] + '/' + os.environ['DATABASE_NAME']
 db = SQLAlchemy(app)
 
 class Person(db.Model):
